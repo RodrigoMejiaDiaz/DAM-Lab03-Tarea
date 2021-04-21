@@ -1,29 +1,71 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {
+  SafeAreaView,
+  View,
+  FlatList,
+  StyleSheet,
+  Text,
+  StatusBar,
+  Image,
+} from 'react-native';
 
 const DATA = [
   {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+    id: '0',
     title: 'First Item',
+    imagen: 'https://picsum.photos/60/300',
   },
   {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+    id: '1',
     title: 'Second Item',
+    imagen: 'https://picsum.photos/100/300',
   },
   {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
+    id: '2',
     title: 'Third Item',
+    imagen: 'https://picsum.photos/200/300',
   },
 ];
 
+const Item = ({title, imagen}) => (
+  <View style={styles.item}>
+    <Image
+      source={{uri: imagen}}
+      style={{width: 60, height: 60, borderRadius: 30}}
+    />
+    <Text style={styles.title}>{title}</Text>
+  </View>
+);
+
 const LaLista = () => {
+  const renderItem = ({item}) => {
+    return <Item title={item.title} imagen={item.imagen} />;
+  };
   return (
-    <View>
-      <Text>S</Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data={DATA}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
+      />
+    </SafeAreaView>
   );
 };
 
 export default LaLista;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: StatusBar.currentHeight || 0,
+  },
+  item: {
+    backgroundColor: 'white',
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+  title: {
+    fontSize: 32,
+  },
+});
